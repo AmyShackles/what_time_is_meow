@@ -450,7 +450,7 @@ class Cat {
     let [attribute, value] = style;
     let innerEye = this[`${side}Eye`].element.querySelector('.eye-inner');
     let outerEye = this[`${side}Eye`].element.querySelector('.eye-outer');
-    let partInference = attribute.match(/inner/gi) ? innerEye : outerEye;
+    let partInference = /inner/gi.test(attribute) ? innerEye : outerEye;
     switch (attribute) {
         case `${side}PupilSize`:
           innerEye.setAttribute("r", value);
@@ -478,7 +478,7 @@ class Cat {
   styleLimb(style, side, limbType) {
     let [attribute, value] = style;
     let limb = this.cat.querySelector(`.${side}-${limbType}`);
-    let limbDescription = limbType.match(/arm/) ? 'FrontPaw' : 'BackPaw';
+    let limbDescription = /arm/.test(limbType) ? 'FrontPaw' : 'BackPaw';
     // If a number is passed in for size, assume measurement is in px
     if (typeof value === 'number') {
       value += 'px'
@@ -508,13 +508,13 @@ class Cat {
   addStyles(styles) {
     console.log('styles', styles)
         Object.entries(styles).forEach(([key, value]) => {
-          let side = key.match('right') ? 'right' : 'left';
-          if (key.match(/sclera|pupil|eye/gi)) {
+          let side = /right/.test(key) ? 'right' : 'left';
+          if (/sclera|pupil|eye/gi.test(key)) {
             this.styleEye([key, value], side);
           }
-          if (key.match(/FrontPaw/gi)) {
+          if (/FrontPaw/gi.test(key)) {
             this.styleLimb([key, value], side, 'arm');
-          } else if (key.match(/BackPaw/gi)) {
+          } else if (/BackPaw/gi.test(key)) {
             this.styleLimb([key, value], side, 'leg');
           } else if (/(?:browridge)|(?:eyes)/gi.test(key)) {
             this.styleEyes([key, value])
@@ -553,13 +553,13 @@ function CatFactory () {
 }
 
 function convertAttributeToStyleProp (style) {
-  if (style.match(/FrontPaw/gi)) {
+  if (/FrontPaw/gi.test(style)) {
     style = style.replace(/((?:left)|(?:right))FrontPaw/, '');
     return style[0].toLowerCase() + style.slice(1);
-  } else if (style.match(/BackPaw/gi)) {
+  } else if (/BackPaw/gi.test(style)) {
     style = style.replace(/((?:left)|(?:right))BackPaw/, '');
     return style[0].toLowerCase() + style.slice(1);
-  } else if (style.match(/eye/gi)) {
+  } else if (/eye/gi.test(style)) {
     style = style.replace(/((?:left)|(?:right))(?:I?i?nner)?(?:O?o?uter)?e?E?ye/, '');
     return style[0].toLowerCase() + style.slice(1);
   }
