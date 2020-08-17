@@ -123,7 +123,7 @@ function createNose(options) {
   nose.appendChild(roundBit);
   let philtrum = document.createElement("div");
   philtrum.setAttribute("class", "straight-bit");
-  philtrum.style.backgroundColor = options.noseColor;
+  philtrum.style.backgroundColor = options.philtrumColor ?? options.noseColor;
   philtrum.style.height = options.philtrumHeight;
   philtrum.style.width = options.philtrumWidth;
   philtrum.style.margin = options.philtrumMargin;
@@ -193,7 +193,7 @@ function createHead(options, idPrefix) {
   let head = document.createElement('div');
   head.setAttribute("class", "head");
   head.setAttribute("id", `${idPrefix}-head`)
-  head.style.backgroundColor = options.catColor;
+  head.style.backgroundColor = options.headColor ?? options.catColor;
   head.style.width = options.headWidth;
   head.style.height = options.headHeight;
   head.style.borderRadius = options.headBorderRadius;
@@ -214,7 +214,7 @@ function createArm(options, side) {
   options = {...defaultOptions, ...options};
   let arm = document.createElement("div");
   arm.setAttribute("class", `${side}-arm`);
-  arm.style.backgroundColor = options.catColor;
+  arm.style.backgroundColor = options[`${side}FrontPawColor`] ?? options.catColor;
   arm.style.height = options[`${side}FrontPawSize`];
   arm.style.width = options[`${side}FrontPawSize`];
   if (side === 'left') {
@@ -230,7 +230,7 @@ function createTorso(options) {
   options = {...defaultOptions, ...options};
   let torso = document.createElement("div");
   torso.setAttribute("class", "torso");
-  torso.style.backgroundColor = options.catColor;
+  torso.style.backgroundColor = options.torsoColor ?? options.catColor;
   torso.style.height = options.torsoHeight;
   torso.style.width = options.torsoWidth;
   torso.style.borderRadius = options.torsoBorderRadius;
@@ -275,7 +275,7 @@ function createLeg(options, side) {
   options = {...defaultOptions, ...options};
   let leg = document.createElement("div");
   leg.setAttribute("class", `${side}-leg`);
-  leg.style.backgroundColor = options.catColor;
+  leg.style.backgroundColor = options[`${side}BackPawColor`] ?? options.catColor;
   leg.style.marginTop = options[`${side}BackPawMarginTop`];
   leg.style.borderRadius = options[`${side}BackPawBorderRadius`];
   leg.style.width = options[`${side}BackPawWidth`];
@@ -304,7 +304,7 @@ function createTail(options, idPrefix) {
   let tail = document.createElement("div");
   tail.setAttribute("class", "tail");
   tail.setAttribute("id", `cat${idPrefix}-tail`)
-  tail.style.borderColor = options.catColor;
+  tail.style.borderColor = options.tailColor ?? options.catColor;
   tail.style.borderRightWidth = options.tailRightBorderWidth;
   tail.style.borderBottomWidth = options.tailBottomBorderWidth;
   tail.style.borderRightStyle = "solid";
