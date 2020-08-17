@@ -47,9 +47,13 @@ function createEyes(options, idPrefix) {
   let eyes = document.createElement('div');
   eyes.setAttribute("class", "eyes");
   eyes.style.height = options.browRidgeHeight;
-  eyes.style.width = options.browRidgeWidth;
   let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute("viewBox", "0 0 120 120");
+  svg.style.position = options.eyesSVGPosition;
+  svg.style.height = options.eyesSVGHeight;
+  svg.style.width = options.eyesSVGWidth;
+  svg.style.paddingTop = options.eyesSVGPaddingTop;
+  svg.style.paddingLeft = options.eyesSVGPaddingLeft;
   let leftEye = createLeftEye(options);
   leftEye.setAttribute("id", `cat${idPrefix}-left-eye`)
   let rightEye = createRightEye(options);
@@ -59,16 +63,31 @@ function createEyes(options, idPrefix) {
   eyes.appendChild(svg);
   return { eyes, svg };
 }
+function createLip(options, side) {
+  let lip = document.createElement("div");
+  lip.setAttribute("class", `${side}-lip`);
+  if (side === "left") {
+    lip.style.marginLeft = "36%";
+  }
+  lip.style.width = options.lipWidth;
+  lip.style.height = options.lipHeight;
+  lip.style.borderBottomLeftRadius = options.lipBottomLeftRadius;
+  lip.style.borderBottomRightRadius = options.lipBottomRightRadius;
+  lip.style.border = options.lipBorder;
+  lip.style.borderTop = options.lipBorderTop;
+  return lip;
+}
 function createMouth(options) {
   options = {...defaultOptions, ...options};
   let mouth = document.createElement("div")
   mouth.setAttribute("class", "mouth");
-  let leftSide = document.createElement("div");
-  leftSide.setAttribute("class", "left-side");
-  let rightSide = document.createElement("div");
-  rightSide.setAttribute("class", "right-side");
-  mouth.appendChild(leftSide);
-  mouth.appendChild(rightSide);
+  mouth.style.display = "flex";
+  mouth.style.justifyContent = "center";
+  mouth.style.margin = options.mouthMargin;
+  let leftLip = createLip(options, 'left');
+  let rightLip = createLip(options, 'right');
+  mouth.appendChild(leftLip);
+  mouth.appendChild(rightLip);
   return mouth;
 }
 
@@ -78,16 +97,37 @@ function createNose(options) {
   nose.setAttribute("class", "nose");
   let roundBit = document.createElement('div');
   roundBit.setAttribute("class", "round-bit");
+  roundBit.style.width = options.noseWidth;
+  roundBit.style.height = options.noseHeight;
+  roundBit.style.backgroundColor = options.noseColor;
+  roundBit.style.borderRadius = options.noseBorderRadius;
+  roundBit.style.margin = options.noseMargin;
+  roundBit.style.display = "flex";
+  roundBit.style.justifyContent = "space-evenly";
   let nostril1 = document.createElement('div');
   nostril1.setAttribute("class", "nostril");
+  nostril1.style.backgroundColor = options.nostrilColor;
+  nostril1.style.borderRadius = options.nostrilBorderRadius;
+  nostril1.style.marginTop = options.nostrilMarginTop;
+  nostril1.style.height = options.nostrilHeight;
+  nostril1.style.width = options.nostrilWidth;
   let nostril2 = document.createElement("div");
-  nostril2.setAttribute("class", "nostril");
+  nostril1.setAttribute("class", "nostril");
+  nostril2.style.backgroundColor = options.nostrilColor;
+  nostril2.style.borderRadius = options.nostrilBorderRadius;
+  nostril2.style.marginTop = options.nostrilMarginTop;
+  nostril2.style.height = options.nostrilHeight;
+  nostril2.style.width = options.nostrilWidth;
   roundBit.appendChild(nostril1);
   roundBit.appendChild(nostril2);
   nose.appendChild(roundBit);
-  let straightBit = document.createElement("div");
-  straightBit.setAttribute("class", "straight-bit");
-  nose.appendChild(straightBit);
+  let philtrum = document.createElement("div");
+  philtrum.setAttribute("class", "straight-bit");
+  philtrum.style.backgroundColor = options.noseColor;
+  philtrum.style.height = options.philtrumHeight;
+  philtrum.style.width = options.philtrumWidth;
+  philtrum.style.margin = options.philtrumMargin;
+  nose.appendChild(philtrum);
   return nose;
 }
 
@@ -98,6 +138,16 @@ function createLeftEar(options) {
   leftEar.style.borderBottomColor = options.catColor;
   leftEar.style.borderBottomWidth = options.leftEarHeight;
   leftEar.style.borderBottomStyle = "solid";
+  leftEar.style.borderLeftColor = "transparent";
+  leftEar.style.borderRightColor = "transparent";
+  leftEar.style.borderLeftWidth = "40px";
+  leftEar.style.borderRightWidth = "40px";
+  leftEar.style.borderRightStyle = "solid";
+  leftEar.style.borderLeftStyle = "solid";
+  leftEar.style.marginLeft = "30%";
+  leftEar.style.width = "0";
+  leftEar.style.height = "0";
+  leftEar.style.zIndex = "-1"
   return leftEar;
 }
 
@@ -108,6 +158,16 @@ function createRightEar(options) {
   rightEar.style.borderBottomColor = options.catColor;
   rightEar.style.borderBottomWidth = options.leftEarHeight;
   rightEar.style.borderBottomStyle = "solid";
+  rightEar.style.borderLeftColor = "transparent";
+  rightEar.style.borderRightColor = "transparent";
+  rightEar.style.borderLeftWidth = "40px";
+  rightEar.style.borderRightWidth = "40px";
+  rightEar.style.borderRightStyle = "solid";
+  rightEar.style.borderLeftStyle = "solid";
+  rightEar.style.marginRight = "30%";
+  rightEar.style.height = "0";
+  rightEar.style.width = "0";
+  rightEar.style.zIndex = "-1"
   return rightEar;
 }
 
@@ -116,6 +176,9 @@ function createEars(options, idPrefix) {
   let ears = document.createElement("div");
   ears.setAttribute("class", "ears");
   ears.setAttribute("id", `${idPrefix}-ears`)
+  ears.style.display = "flex";
+  ears.style.justifyContent = "space-between";
+  ears.style.width = "380px";
   let leftEar = createLeftEar(options);
   leftEar.setAttribute("id", `cat${idPrefix}-left-ear`)
   let rightEar = createRightEar(options);
@@ -131,6 +194,10 @@ function createHead(options, idPrefix) {
   head.setAttribute("class", "head");
   head.setAttribute("id", `${idPrefix}-head`)
   head.style.backgroundColor = options.catColor;
+  head.style.width = options.headWidth;
+  head.style.height = options.headHeight;
+  head.style.borderRadius = options.headBorderRadius;
+  head.style.margin = options.headMargin;
   let { eyes, svg } = createEyes(options, idPrefix);
   eyes.setAttribute("id", `cat${idPrefix}-eyes`);
   svg.setAttribute("id", `cat${idPrefix}-svg`);
@@ -143,25 +210,20 @@ function createHead(options, idPrefix) {
   head.appendChild(mouth);
   return { head, svg };
 }
-
-function createLeftArm(options) {
+function createArm(options, side) {
   options = {...defaultOptions, ...options};
-  let leftArm = document.createElement("div");
-  leftArm.setAttribute("class", "left-arm");
-  leftArm.style.backgroundColor = options.catColor;
-  leftArm.style.height = options.leftFrontPawSize;
-  leftArm.style.width = options.leftFrontPawSize;
-  return leftArm;
-}
-
-function createRightArm(options) {
-  options = {...defaultOptions, ...options};
-  let rightArm = document.createElement("div");
-  rightArm.setAttribute("class", "right-arm");
-  rightArm.style.backgroundColor = options.catColor;
-  rightArm.style.height = options.rightFrontPawSize;
-  rightArm.style.width = options.rightFrontPawSize;
-  return rightArm;
+  let arm = document.createElement("div");
+  arm.setAttribute("class", `${side}-arm`);
+  arm.style.backgroundColor = options.catColor;
+  arm.style.height = options[`${side}FrontPawSize`];
+  arm.style.width = options[`${side}FrontPawSize`];
+  if (side === 'left') {
+    arm.style.marginRight = options.leftFrontPawMarginRight;
+  } else {
+    arm.style.marginLeft = options.rightFrontPawMarginLeft;
+  }
+  arm.style.borderRadius = options[`${side}FrontPawRadius`];
+  return arm;
 }
 
 function createTorso(options) {
@@ -169,9 +231,17 @@ function createTorso(options) {
   let torso = document.createElement("div");
   torso.setAttribute("class", "torso");
   torso.style.backgroundColor = options.catColor;
+  torso.style.height = options.torsoHeight;
+  torso.style.width = options.torsoWidth;
+  torso.style.borderRadius = options.torsoBorderRadius;
+  torso.style.display = "flex";
+  torso.style.zIndex = "-1";
+  torso.style.alignItems = "center";
   function createClock() {
     let clock = document.createElement("canvas");
     clock.setAttribute("class", "clock");
+    clock.style.height = options.clockHeight;
+    clock.style.width = options.clockWidth;
     return clock;
   }
   let clock = createClock();
@@ -184,12 +254,16 @@ function createBody(options, idPrefix) {
   let body = document.createElement("div");
   body.setAttribute("class", "body");
   body.setAttribute("id", `cat${idPrefix}-body`)
-  let leftArm = createLeftArm(options);
+  body.style.zIndex = "-1";
+  body.style.display = "flex";
+  body.style.justifyContent = "center";
+  body.style.alignItems = "center";
+  let leftArm = createArm(options, 'left');
   leftArm.setAttribute("id", `cat${idPrefix}-left-arm`)
   let { torso, clock } = createTorso(options);
   torso.setAttribute("id", `cat${idPrefix}-torso`);
   clock.setAttribute("id", `cat${idPrefix}-clock`)
-  let rightArm = createRightArm(options);
+  let rightArm = createArm(options, 'right');
   rightArm.setAttribute("id", `cat${idPrefix}-right-arm`)
   body.appendChild(leftArm);
   body.appendChild(torso);
@@ -197,30 +271,28 @@ function createBody(options, idPrefix) {
   return { body, clock };
 }
 
-function createLeftLeg(options) {
+function createLeg(options, side) {
   options = {...defaultOptions, ...options};
-  let leftLeg = document.createElement("div");
-  leftLeg.setAttribute("class", "left-leg");
-  leftLeg.style.backgroundColor = options.catColor;
-  return leftLeg;
-}
-
-function createRightLeg(options) {
-  options = {...defaultOptions, ...options};
-  let rightLeg = document.createElement("div");
-  rightLeg.setAttribute("class", "right-leg");
-  rightLeg.style.backgroundColor = options.catColor;
-  return rightLeg;
+  let leg = document.createElement("div");
+  leg.setAttribute("class", `${side}-leg`);
+  leg.style.backgroundColor = options.catColor;
+  leg.style.marginTop = options[`${side}BackPawMarginTop`];
+  leg.style.borderRadius = options[`${side}BackPawBorderRadius`];
+  leg.style.width = options[`${side}BackPawWidth`];
+  leg.style.height = options[`${side}BackPawHeight`];
+  return leg;
 }
 
 function createLegs(options, idPrefix) {
   options = {...defaultOptions, ...options};
   let legs = document.createElement("div");
   legs.setAttribute("class", "legs");
-  legs.setAttribute("id", `cat${idPrefix}-legs`)
-  let leftLeg = createLeftLeg(options);
+  legs.setAttribute("id", `cat${idPrefix}-legs`);
+  legs.style.display = "flex";
+  legs.style.justifyContent = "space-around";
+  let leftLeg = createLeg(options, 'left');
   leftLeg.setAttribute("id", `cat${idPrefix}-left-leg`)
-  let rightLeg = createRightLeg(options);
+  let rightLeg = createLeg(options, 'right');
   rightLeg.setAttribute("id", `cat${idPrefix}-right-leg`)
   legs.appendChild(leftLeg);
   legs.appendChild(rightLeg);
@@ -233,6 +305,15 @@ function createTail(options, idPrefix) {
   tail.setAttribute("class", "tail");
   tail.setAttribute("id", `cat${idPrefix}-tail`)
   tail.style.borderColor = options.catColor;
+  tail.style.borderRightWidth = options.tailRightBorderWidth;
+  tail.style.borderBottomWidth = options.tailBottomBorderWidth;
+  tail.style.borderRightStyle = "solid";
+  tail.style.width = options.tailWidth;
+  tail.style.height = options.tailHeight;
+  tail.style.alignSelf = "center";
+  tail.style.marginRight = options.tailMarginRight;
+  tail.style.borderBottomRightRadius = options.tailCurve;
+  tail.style.marginTop = options.tailMarginTop;
   return tail;
 }
 
@@ -242,7 +323,10 @@ function createCat(options, idPrefix) {
   cat.setAttribute("id", `cat${idPrefix}`);
   cat.setAttribute("class", "cat");
   cat.style.margin = options.catMargin;
-  cat.stylemwidth = options.catWidth;
+  cat.style.width = options.catWidth;
+  cat.style.display = "flex";
+  cat.style.flexDirection = "column";
+  cat.style.zIndex = "1";
   let ears = createEars(options, idPrefix);
   let { head, svg } = createHead(options, idPrefix);
   let { body, clock } = createBody(options, idPrefix);

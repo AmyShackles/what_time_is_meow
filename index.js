@@ -4,23 +4,7 @@ let catList = [];
 var numCats = -1;
 
 
-let animation = gsap.timeline({onComplete: animationComplete});
-animation
-.to(".ears .left-ear", { duration: 3, x: 5, y: 5, skewX: 15, scale: .9, rotation: 25}, "initial")
-.to(".ears .right-ear", { duration: 3, x: 5, y: 5, skewX: 15, scale: .9, rotation: 25}, "initial")
-.to(".mouth .right-side", { duration: 1, rotation: -20}, "initial")
-.to(".mouth .left-side", { duration: 1, rotation: 20}, "initial")
-.to(".tail", { duration: 8, rotationY: 180, rotationX: 0, y: 0, x: 220}, "initial")
-.to(".ears .left-ear", { duration: 3, x: 0, y: 0, skewY: 25, scale: .9, rotation: -5}, "second")
-.to(".ears .right-ear", { duration: 3, x: 0, y: 0, skewY: 35, scale: .9, rotation: -5}, "second")
-.to(".mouth .right-side", { duration: 1, rotation: 0}, "second")
-.to(".mouth .left-side", { duration: 1, rotation: 0}, "second")
-.to(".tail", { duration: 8, rotationY: 0, rotationX: 0, x: 0}, "second")
 
-
-function animationComplete() {
-  animation.restart();
-}
 
 function getTimeZone(timeZone) {
   if (timeZone) {
@@ -41,7 +25,6 @@ function getTimeZone(timeZone) {
 
 function updateEye(selector) {
   var element = document.getElementById(selector);
-  console.log('element', element, 'selector', selector);
   TweenLite.set(element, {
     transformOrigin: "center"
   });
@@ -94,18 +77,6 @@ function changeCatColor(cat, color) {
   leftEar.style.borderBottomColor = color;
   rightEar.style.borderBottomColor = color;
 }
-
-// function styleRightEye(cat, styles) {
-//   styles.forEach(([key, value]) => {
-//     switch (key) {
-//       case "rightPupilColor":
-//       case "rightScleraColor":
-//         rightEye.style.fill = value;
-//         break;
-//     }
-//   })
-// }
-
 function createClock(ctx, now, options = defaultOptions) {
   ctx.save();
   ctx.clearRect(0, 0, 300, 300);
@@ -210,7 +181,6 @@ function catsInit() {
   cats.style.height = "100vh";
   cats.style.width = "100vw";
   cats.style.display = "flex";
-
   let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
   svg.setAttribute("id", "svg");
   svg.setAttribute("viewBox", "0 0 1000 1000");
@@ -336,7 +306,6 @@ function CatFactory() {
       timeZoneLabel.innerText = 'Local Time';
     }
     cat.prepend(timeZoneLabel);
-    console.log('cat Id', cat.id);
     let time = getTimeZone(timeZone);
     createClock(context, time, options);
     let mouse = svg.createSVGPoint();
@@ -382,7 +351,29 @@ function clock() {
 window.requestAnimationFrame(clock);
 catsInit();
 let catFactory = new CatFactory();
-catList.push(catFactory.create())
-catList.push(catFactory.create('Australia/Sydney', {catColor: 'green'}));
-catList.push(catFactory.create('Europe/London', {catColor: 'red'}))
-catList.push(catFactory.create('Europe/Berlin', {catColor: 'rebeccapurple'}))
+let localCat = catFactory.create();
+let sidneyCat = catFactory.create(`Australia/Sydney`, {catColor: 'green'});
+let londonCat = catFactory.create('Europe/London', {catColor: 'red'});
+let berlinCat = catFactory.create('Europe/Berlin', {catColor: 'rebeccapurple'});
+catList.push(localCat);
+catList.push(sidneyCat);
+catList.push(londonCat);
+catList.push(berlinCat);
+catList[2].addStyles({leftEyeColor: 'blue'})
+let animation = gsap.timeline({onComplete: animationComplete});
+animation
+.to(".ears .left-ear", { duration: 3, x: 5, y: 5, skewX: 15, scale: .9, rotation: 25}, "initial")
+.to(".ears .right-ear", { duration: 3, x: 5, y: 5, skewX: 15, scale: .9, rotation: 25}, "initial")
+.to(".mouth .right-side", { duration: 1, rotation: -20}, "initial")
+.to(".mouth .left-side", { duration: 1, rotation: 20}, "initial")
+.to(".tail", { duration: 8, rotationY: 180, rotationX: 0, y: 0, x: 220}, "initial")
+.to(".ears .left-ear", { duration: 3, x: 0, y: 0, skewY: 25, scale: .9, rotation: -5}, "second")
+.to(".ears .right-ear", { duration: 3, x: 0, y: 0, skewY: 35, scale: .9, rotation: -5}, "second")
+.to(".mouth .right-side", { duration: 1, rotation: 0}, "second")
+.to(".mouth .left-side", { duration: 1, rotation: 0}, "second")
+.to(".tail", { duration: 8, rotationY: 0, rotationX: 0, x: 0}, "second")
+
+
+function animationComplete() {
+  animation.restart();
+}
