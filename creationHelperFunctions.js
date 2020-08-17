@@ -85,7 +85,9 @@ function createMouth(options) {
   mouth.style.justifyContent = "center";
   mouth.style.margin = options.mouthMargin;
   let leftLip = createLip(options, 'left');
+  leftLip.setAttribute('class', 'left-side');
   let rightLip = createLip(options, 'right');
+  rightLip.setAttribute('class', 'right-side');
   mouth.appendChild(leftLip);
   mouth.appendChild(rightLip);
   return mouth;

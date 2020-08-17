@@ -219,7 +219,6 @@ class Cat {
     } else if (attribute === `${side}EarHeight`) {
       ear.style.borderBottomWidth = value;
     }
-    
   }
   styleEye(style, side) {
     let [attribute, value] = style;
@@ -248,7 +247,6 @@ class Cat {
         partInference.style[attribute] = value;
         break;
     }
-    return this;
   }
   styleLimb(style, side, limbType) {
     let [attribute, value] = style;
@@ -271,14 +269,12 @@ class Cat {
         limb.style[attribute] = value;
         break;
     }
-    return this;
   }
   styleEyes([attribute, value]) {
     const eyes = this.cat.querySelector('.eyes');
     attribute = attribute.replace(/(?:browridge)|(?:eyes)/gi, '');
     attribute = attribute[0].toLowerCase() + attribute.slice(1);
     eyes.style[attribute] = value;
-    return this;
   }
   styleClock([attribute, value]) {
     const clock = this.clock;
@@ -295,14 +291,12 @@ class Cat {
       attribute = attribute[0].toLowerCase() + attribute.slice(1);
     }
     head.style[attribute] = value;
-    return this;
   }
   styleNose([attribute, value]) {
     const nose = this.cat.querySelector('.round-bit');
     attribute = attribute.replace(/nose/i, '');
     attribute = attribute[0].toLowerCase() + attribute.slice(1);
     nose.style[attribute] = value;
-    return this;
   }
   styleNostril([attribute, value]) {
     const nostrils = this.cat.querySelectorAll('.nostril');
@@ -311,7 +305,6 @@ class Cat {
     nostrils.forEach(nostril => {
       nostril.style[attribute] = value;
     })
-    return this;
   }
   stylePhiltrum([attribute, value]) {
     const philtrum = this.cat.querySelector('.straight-bit');
@@ -322,10 +315,8 @@ class Cat {
       attribute = attribute[0].toLowerCase() + attribute.slice(1);
     }
     philtrum.style[attribute] = value;
-    return this;
   }
   addStyles(styles) {
-    console.log('styles', styles)
     Object.entries(styles).forEach(([key, value]) => {
       let side = /right/.test(key) ? 'right' : 'left';
       if (/(?:browridge)|(?:eyes)/gi.test(key)) {
@@ -352,7 +343,6 @@ class Cat {
         this.styleEar([key, value], side);
       } 
     });
-    return this;
   }
 }
 

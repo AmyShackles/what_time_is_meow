@@ -1,7 +1,7 @@
 const defaultOptions = {
     // Entire page
     backgroundColor: 'black',
-    cursor: `url("https://github.com/AmyShackles/AmyShackles/blob/master/mouse.png?raw=true"), auto`,
+    cursor: `url("mouse.png"), auto`,
     // Eyes
     browRidgeHeight: "90px",
     eyesSVGPosition: "fixed",
