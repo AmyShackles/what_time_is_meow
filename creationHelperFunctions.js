@@ -238,6 +238,7 @@ function createBody(options, idPrefix) {
   let body = document.createElement("div");
   body.setAttribute("class", "body");
   body.setAttribute("id", `cat${idPrefix}-body`)
+  // Ensure that body does not cover up cat face
   body.style.zIndex = "-1";
   body.style.display = "flex";
   body.style.justifyContent = "center";
@@ -298,6 +299,8 @@ function createTail(options, idPrefix) {
   tail.style.marginRight = options.tailMarginRight;
   tail.style.borderBottomRightRadius = options.tailCurve;
   tail.style.marginTop = options.tailMarginTop;
+  // Ensure that tail appears behind the cat's body
+  tail.style.zIndex = "-2";
   return tail;
 }
 
@@ -315,7 +318,7 @@ function createCat(options, idPrefix) {
   let { head, svg } = createHead(options, idPrefix);
   let { body, clock } = createBody(options, idPrefix);
   let legs = createLegs(options);
-  let tail = createTail(options);
+  let tail = createTail(options, idPrefix);
   cat.appendChild(ears);
   cat.appendChild(head);
   cat.appendChild(body);
