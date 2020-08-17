@@ -426,7 +426,6 @@ catList.push(berlinCat);
 
 catList[2].addStyles({leftEyeColor: 'blue', minuteMarkColor: 'grey', headColor: 'fuchsia',});
 catList[1].addStyles({leftBackPawColor: "red", secondHandColor: "white", clockFaceColor: "rgb(23, 25, 22, 0.3)"});
-catList[0].addStyles({philtrumColor: 'red', leftEarColor: 'green'})
 
 
 
