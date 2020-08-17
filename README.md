@@ -3,7 +3,7 @@ Repository to extend a project started on Codepen, in order to safeguard it from
 
 **Cat Diagram**
 
-![CatDiagram](./catDiagram.png)
+![CatDiagram](./images/catDiagram.png)
 
 ## Default Properties
 

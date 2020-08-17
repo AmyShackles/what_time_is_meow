@@ -1,7 +1,7 @@
 const defaultOptions = {
     // Entire page
     backgroundColor: 'black',
-    cursor: `url("mouse.png"), auto`,
+    cursor: `url("images/mouse.png"), auto`,
     // Eyes
     browRidgeHeight: "90px",
     eyesSVGPosition: "fixed",
