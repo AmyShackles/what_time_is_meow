@@ -13,6 +13,10 @@ svg {
   padding-top: 5px;
   padding-left: 45px;
 }
+.eyes {
+  height: 90px;
+  width: 200px;
+}
 .cat {
   margin: auto;
   width: 380px;
@@ -176,10 +180,11 @@ canvas {
             box-shadow:0 1px 0 black;
             } 
 
-.cats {
+#cats {
   display: flex;
   width: 100vw;
   height: 100vh;
+  flex-direction: row;
   
 }
 .cat {
