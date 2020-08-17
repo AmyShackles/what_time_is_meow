@@ -7,7 +7,7 @@ Repository to extend a project started on Codepen, in order to safeguard it from
 
 ## Default Properties
 
-Default options for the appearance of generated cats can be found and altered in [defaultOptions.js](./defaultOptions.js);
+Default options for the appearance of generated cats can be found and altered in [defaultOptions.js](./utils/defaultOptions.js);
 
 Originally set defaults are as follows:
 
