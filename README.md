@@ -109,9 +109,8 @@ const defaultOptions = {
 
 ## To Create a Cat
 
-  1) Ensure that `catsInit()` is called first
-  2) Initialize a cat factory by intiantiating a new CatFactory class (e.g., `let catFactory = new CatFactory()`)
-  3) Start creating cats using the `create` method on `CatFactory`!  (Be sure to add them to the `catList` array)
+  1) Initialize a cat factory by intiantiating a new CatFactory class (e.g., `let catFactory = new CatFactory()`)
+  2) Start creating cats using the `create` method on `CatFactory`!  (Be sure to add them to the `catList` array)
 
 ### To Create a Cat with a Specific Timezone
 
@@ -128,7 +127,6 @@ Access the cat you'd like to style, then call `addStyles` on that cat, passing i
 ## Example Usage
 
 ```javascript
-catsInit();
 
 // Initialize the cat factory
 let catFactory = new CatFactory();

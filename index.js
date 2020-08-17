@@ -12,6 +12,7 @@ catList.push(localCat);
 catList.push(sidneyCat);
 catList.push(londonCat);
 catList.push(berlinCat);
+catList.push(catFactory.create('America/Chicago'))
 
 catList[2].addStyles({leftEyeColor: 'blue', minuteMarkColor: 'grey', headColor: 'fuchsia',});
 catList[1].addStyles({leftBackPawColor: "red", secondHandColor: "white", clockFaceColor: "rgb(23, 25, 22, 0.3)"});
