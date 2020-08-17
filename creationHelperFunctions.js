@@ -131,44 +131,29 @@ function createNose(options) {
   return nose;
 }
 
-function createLeftEar(options) {
+function createEar(options, side) {
   options = {...defaultOptions, ...options};
-  let leftEar = document.createElement("div");
-  leftEar.setAttribute("class", "left-ear");
-  leftEar.style.borderBottomColor = options.catColor;
-  leftEar.style.borderBottomWidth = options.leftEarHeight;
-  leftEar.style.borderBottomStyle = "solid";
-  leftEar.style.borderLeftColor = "transparent";
-  leftEar.style.borderRightColor = "transparent";
-  leftEar.style.borderLeftWidth = "40px";
-  leftEar.style.borderRightWidth = "40px";
-  leftEar.style.borderRightStyle = "solid";
-  leftEar.style.borderLeftStyle = "solid";
-  leftEar.style.marginLeft = "30%";
-  leftEar.style.width = "0";
-  leftEar.style.height = "0";
-  leftEar.style.zIndex = "-1"
-  return leftEar;
-}
-
-function createRightEar(options) {
-  options = {...defaultOptions, ...options};
-  let rightEar = document.createElement("div");
-  rightEar.setAttribute("class", "right-ear");
-  rightEar.style.borderBottomColor = options.catColor;
-  rightEar.style.borderBottomWidth = options.leftEarHeight;
-  rightEar.style.borderBottomStyle = "solid";
-  rightEar.style.borderLeftColor = "transparent";
-  rightEar.style.borderRightColor = "transparent";
-  rightEar.style.borderLeftWidth = "40px";
-  rightEar.style.borderRightWidth = "40px";
-  rightEar.style.borderRightStyle = "solid";
-  rightEar.style.borderLeftStyle = "solid";
-  rightEar.style.marginRight = "30%";
-  rightEar.style.height = "0";
-  rightEar.style.width = "0";
-  rightEar.style.zIndex = "-1"
-  return rightEar;
+  const ear = document.createElement("div");
+  ear.setAttribute("class", `${side}-ear`);
+  ear.style.borderBottomColor = options[`${side}EarColor`] ?? options.catColor;
+  ear.style.borderBottomWidth = options[`${side}EarHeight`];
+  ear.style.borderBottomStyle = "solid";
+  ear.style.borderLeftColor = "transparent";
+  ear.style.borderRightColor = "transparent";
+  ear.style.borderLeftWidth = "40px";
+  ear.style.borderRightWidth = "40px";
+  ear.style.borderRightStyle = "solid";
+  ear.style.borderLeftStyle = "solid";
+  ear.style.height = "0";
+  ear.style.width = "0";
+  // Ensure ear appears behind head
+  ear.style.zIndex = "-1"
+  if (side === "left") {
+    ear.style.marginLeft = "30%";
+  } else {
+    ear.style.marginRight = "30%";
+  }
+  return ear;
 }
 
 function createEars(options, idPrefix) {
@@ -179,9 +164,9 @@ function createEars(options, idPrefix) {
   ears.style.display = "flex";
   ears.style.justifyContent = "space-between";
   ears.style.width = "380px";
-  let leftEar = createLeftEar(options);
+  let leftEar = createEar(options, 'left');
   leftEar.setAttribute("id", `cat${idPrefix}-left-ear`)
-  let rightEar = createRightEar(options);
+  let rightEar = createEar(options, 'right');
   rightEar.setAttribute("id", `cat${idPrefix}-right-ear`)
   ears.appendChild(leftEar);
   ears.appendChild(rightEar);
