@@ -1,6 +1,7 @@
 const defaultOptions = {
     // Entire page
     backgroundColor: 'black',
+    cursor: `url("https://github.com/AmyShackles/AmyShackles/blob/master/mouse.png?raw=true"), auto`,
     // Eyes
     browRidgeHeight: "90px",
     eyesSVGPosition: "fixed",
@@ -17,21 +18,17 @@ const defaultOptions = {
     scleraOutlineWidth: 2,
     scleraOutlineColor: "#000",
     // Arms
-    leftFrontPawColor: "yellow",
     leftFrontPawSize: "50px",
     leftFrontPawRadius: '80%',
     leftFrontPawMarginRight: '-25px',
-    rightFrontPawColor: "yellow",
     rightFrontPawSize: "50px",
     rightFrontPawRadius: '80%',
     rightFrontPawMarginLeft: '-30px',
     // Legs
-    leftBackPawColor: 'yellow',
     leftBackPawHeight: '50px',
     leftBackPawWidth: '50px',
     leftBackPawBorderRadius: '50%',
     leftBackPawMarginTop: '-40px',
-    rightBackPawColor: 'yellow',
     rightBackPawHeight: '50px',
     rightBackPawWidth: '50px',
     rightBackPawBorderRadius: '50%',
@@ -42,8 +39,7 @@ const defaultOptions = {
     catColor: 'yellow',
     // Ears
     leftEarHeight: "70px",
-    leftEarColor: 'yellow',
-    rightEarColor: 'yellow',
+    rightEarHeight: '70px',
     // Clock
     clockHeight: '300px',
     clockWidth: '300px',
@@ -56,7 +52,6 @@ const defaultOptions = {
     minuteMarksColor: 'black',
     hourMarkColor: 'black',
     // Head
-    headColor: 'yellow',
     headWidth: '50%',
     headHeight: '100px',
     headBorderRadius: '50%',
@@ -74,7 +69,7 @@ const defaultOptions = {
     nostrilBorderRadius: '50%',
     philtrumHeight: "10px",
     philtrumWidth: "5px",
-    philtrumMargin: "0 50.5%",
+    philtrumMargin: "0 calc(50% + 3px)",
     // Mouth
     lipWidth: "22px",
     lipHeight: '10px',
