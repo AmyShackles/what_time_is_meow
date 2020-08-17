@@ -220,16 +220,15 @@ function createTorso(options) {
   torso.style.width = options.torsoWidth;
   torso.style.borderRadius = options.torsoBorderRadius;
   torso.style.display = "flex";
-  torso.style.zIndex = "-1";
   torso.style.alignItems = "center";
-  function createClock() {
+  function clockInit() {
     let clock = document.createElement("canvas");
     clock.setAttribute("class", "clock");
     clock.style.height = options.clockHeight;
     clock.style.width = options.clockWidth;
     return clock;
   }
-  let clock = createClock();
+  let clock = clockInit();
   torso.appendChild(clock);
   return {torso, clock}
 }
