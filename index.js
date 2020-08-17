@@ -3,9 +3,6 @@ let timeZoneList = [];
 let catList = [];
 var numCats = -1;
 
-
-
-
 function getTimeZone(timeZone) {
   if (timeZone) {
     let options = {
@@ -77,7 +74,8 @@ function changeCatColor(cat, color) {
   leftEar.style.borderBottomColor = color;
   rightEar.style.borderBottomColor = color;
 }
-function createClock(ctx, now, options = defaultOptions) {
+function createClock(ctx, now, options) {
+  options = {...defaultOptions, ...options};
   ctx.save();
   ctx.clearRect(0, 0, 300, 300);
   ctx.translate(140, 75);
@@ -186,7 +184,8 @@ function catsInit() {
   svg.setAttribute("viewBox", "0 0 1000 1000");
   cats.appendChild(svg);
   document.body.appendChild(cats);
-  document.body.style.backgroundColor = options.backgroundColor
+  document.body.style.backgroundColor = options.backgroundColor;
+  document.body.style.cursor = options.cursor;
 }
 
 function catInit(options) {
@@ -201,7 +200,7 @@ function catInit(options) {
 let requestId = null;
 
 class Cat {
-  constructor(svg, clock, context, leftEye, rightEye, mouse, point, cat) {
+  constructor(svg, clock, context, leftEye, rightEye, mouse, point, cat, options) {
     this.svg = svg;
     this.clock = clock;
     this.context = context;
@@ -210,6 +209,17 @@ class Cat {
     this.mouse = mouse;
     this.point = point;
     this.cat = cat;
+    this.options = options;
+  }
+  styleEar([attribute, value], side) {
+    const ear = this.cat.querySelector(`.${side}-ear`);
+    if (attribute === `${side}EarColor`) {
+      ear.style.borderBottomColor = value;
+
+    } else if (attribute === `${side}EarHeight`) {
+      ear.style.borderBottomWidth = value;
+    }
+    
   }
   styleEye(style, side) {
     let [attribute, value] = style;
@@ -270,20 +280,77 @@ class Cat {
     eyes.style[attribute] = value;
     return this;
   }
+  styleClock([attribute, value]) {
+    const clock = this.clock;
+    attribute = attribute.replace(/clock/gi, '');
+    attribute = attribute[0].toLowerCase() + attribute.slice(1);
+    clock.style[attribute] = value;
+  }
+  styleHead([attribute, value]) {
+    const head = this.cat.querySelector('.head');
+    attribute = attribute.replace(/head/gi, '');
+    if (/color/i.test(attribute)) {
+      attribute = 'backgroundColor';
+    } else {
+      attribute = attribute[0].toLowerCase() + attribute.slice(1);
+    }
+    head.style[attribute] = value;
+    return this;
+  }
+  styleNose([attribute, value]) {
+    const nose = this.cat.querySelector('.round-bit');
+    attribute = attribute.replace(/nose/i, '');
+    attribute = attribute[0].toLowerCase() + attribute.slice(1);
+    nose.style[attribute] = value;
+    return this;
+  }
+  styleNostril([attribute, value]) {
+    const nostrils = this.cat.querySelectorAll('.nostril');
+    attribute = attribute.replace(/nostril/i, '');
+    attribute = attribute[0].toLowerCase() + attribute.slice(1);
+    nostrils.forEach(nostril => {
+      nostril.style[attribute] = value;
+    })
+    return this;
+  }
+  stylePhiltrum([attribute, value]) {
+    const philtrum = this.cat.querySelector('.straight-bit');
+    attribute = attribute.replace(/philtrum/i, '');
+    if (/color/i.test(attribute)) {
+      attribute = 'backgroundColor'
+    } else {
+      attribute = attribute[0].toLowerCase() + attribute.slice(1);
+    }
+    philtrum.style[attribute] = value;
+    return this;
+  }
   addStyles(styles) {
     console.log('styles', styles)
     Object.entries(styles).forEach(([key, value]) => {
       let side = /right/.test(key) ? 'right' : 'left';
-      if (/sclera|pupil|eye/gi.test(key)) {
-        this.styleEye([key, value], side);
-      }
-      if (/FrontPaw/gi.test(key)) {
-        this.styleLimb([key, value], side, 'arm');
-      } else if (/BackPaw/gi.test(key)) {
-        this.styleLimb([key, value], side, 'leg');
-      } else if (/(?:browridge)|(?:eyes)/gi.test(key)) {
+      if (/(?:browridge)|(?:eyes)/gi.test(key)) {
         this.styleEyes([key, value])
-      }
+      } else if (/(?:frontpaw)|(?:arm)/gi.test(key)) {
+        this.styleLimb([key, value], side, 'arm');
+      } else if (/(?:backpaw)|(?:leg)/gi.test(key)) {
+        this.styleLimb([key, value], side, 'leg');
+      } else if (/sclera|pupil|eye/gi.test(key)) {
+        this.styleEye([key, value], side);
+      } else if (/(?:clockWidth)|(?:clockHeight)/gi.test(key)) {
+        this.styleClock([key, value])
+      } else if (/(?:minute)|(?:hour)|(?:second)|(?:clockface)|(?:clockoutline)/gi.test(key)) {
+        this.options[key] = value;
+      } else if (/head/gi.test(key)) {
+        this.styleHead([key, value])
+      } else if (/nose/i.test(key)) {
+        this.styleNose([key, value])
+      } else if (/nostril/i.test(key)) {
+        this.styleNostril([key, value])
+      } else if (/philtrum/i.test(key)) {
+        this.stylePhiltrum([key, value])
+      } else if (/ear/i.test(key)) {
+        this.styleEar([key, value], side);
+      } 
     });
     return this;
   }
@@ -305,6 +372,7 @@ function CatFactory() {
     } else {
       timeZoneLabel.innerText = 'Local Time';
     }
+    // Adds a label above the cat with timezone
     cat.prepend(timeZoneLabel);
     let time = getTimeZone(timeZone);
     createClock(context, time, options);
@@ -312,7 +380,7 @@ function CatFactory() {
     let leftEye = updateEye(`${cat.id}-left-eye`);
     let rightEye = updateEye(`${cat.id}-right-eye`);
     let point = mouse.matrixTransform(svg.getScreenCTM().inverse());
-    return new Cat(svg, clock, context, leftEye, rightEye, mouse, point, cat);
+    return new Cat(svg, clock, context, leftEye, rightEye, mouse, point, cat, options);
   }
 }
 
@@ -335,31 +403,44 @@ function convertAttributeToStyleProp(style) {
   } else if (/eye/gi.test(style)) {
     style = style.replace(/((?:left)|(?:right))(?:inner)?(?:outer)?eye/gi, '');
     return style[0].toLowerCase() + style.slice(1);
-  }
+  } 
 }
 
 function clock() {
-  let clocks = document.querySelectorAll('.clock');
-  clocks.forEach((clock, index) => {
-    let context = clock.getContext('2d');
+  catList.forEach(({clock, context, options}, index) => {
     let time = getTimeZone(timeZoneList[index]);
-    createClock(context, time);
+    createClock(context, time, options);
   });
   window.requestAnimationFrame(clock);
 }
 
 window.requestAnimationFrame(clock);
+
+// catsInit creates the first div that all others attach to
 catsInit();
+
+// Initialize the cat factory
 let catFactory = new CatFactory();
+
+// Create whatever cats you'd like, passing in whatever options you'd like
 let localCat = catFactory.create();
 let sidneyCat = catFactory.create(`Australia/Sydney`, {catColor: 'green'});
 let londonCat = catFactory.create('Europe/London', {catColor: 'red'});
-let berlinCat = catFactory.create('Europe/Berlin', {catColor: 'rebeccapurple'});
+let berlinCat = catFactory.create('Europe/Berlin', {catColor: 'rebeccapurple', tailColor: 'green'});
+
+// Cats pushed to an array in order to access them by index
 catList.push(localCat);
 catList.push(sidneyCat);
 catList.push(londonCat);
 catList.push(berlinCat);
-catList[2].addStyles({leftEyeColor: 'blue'})
+
+catList[2].addStyles({leftEyeColor: 'blue', minuteMarkColor: 'grey', headColor: 'fuchsia',});
+catList[1].addStyles({leftBackPawColor: "red", secondHandColor: "white", clockFaceColor: "rgb(23, 25, 22, 0.3)"});
+catList[0].addStyles({philtrumColor: 'red', leftEarColor: 'green'})
+
+
+
+// Animation needs to be at bottom of file to ensure cats have been created beforehand
 let animation = gsap.timeline({onComplete: animationComplete});
 animation
 .to(".ears .left-ear", { duration: 3, x: 5, y: 5, skewX: 15, scale: .9, rotation: 25}, "initial")
