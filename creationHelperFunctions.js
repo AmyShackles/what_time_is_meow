@@ -83,7 +83,7 @@ function createMouth(options) {
   mouth.setAttribute("class", "mouth");
   mouth.style.display = "flex";
   mouth.style.justifyContent = "center";
-  mouth.style.margin = options.mouthhMargin;
+  mouth.style.margin = options.mouthMargin;
   let leftLip = createLip(options, 'left');
   leftLip.setAttribute('class', 'left-side');
   let rightLip = createLip(options, 'right');

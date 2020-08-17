@@ -44,7 +44,7 @@ const defaultOptions = {
     clockHeight: '300px',
     clockWidth: '300px',
     clockFaceColor: 'rgb(255, 255, 255, 0.3)',
-    secondHandPointColor: 'purple',
+    secondHandPointColor: 'rgba(0, 0, 0, 0)',
     clockOutlineColor: 'black',
     secondHandColor: '#D40000',
     minuteHandColor: 'black',
